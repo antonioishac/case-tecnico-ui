@@ -1,0 +1,65 @@
+<div class="container mt-12">
+
+    <h2>Consulta de Estados</h2>
+
+    <form autocomplete="off">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="nome" [(ngModel)]="filtro.nome">
+        </div>
+
+        <div class="form-group">
+            <label for="sigla">Sigla</label>
+            <input type="text" class="form-control" name="sigla" id="sigla" [(ngModel)]="filtro.sigla">
+        </div>
+
+        <div class="form-group">            
+            <button class="btn btn-primary mt-4" (click)="listarEstados()">Pesquisar</button>
+            <!-- <button pButton type="submit" label="Pesquisar"></button> -->
+        </div>
+    </form>
+
+    <div class="form-group">
+        <p-table [value]="estados" 
+            [responsive]="true" 
+            [paginator]="true" 
+            [rows]="filtro.itensPorPagina" [lazy]="true"
+            [totalRecords]="totalRegistros" 
+            (onLazyLoad)="aoMudarPagina($event)" #tabela>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nome</th>
+                    <th>Sigla</th>
+                    <th class="col-acoes-header"></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-estado>
+                <tr>
+                    <td>{{ estado.nome }}</td>
+                    <td>{{ estado.sigla }}</td>
+                    <td class="col-acoes" style="text-align: center;">
+                        <a pButton icon="fa fa-pencil" pTooltip="Editar" tooltipPosition="top"
+                            [routerLink]="['/estado', estado.codigo]"></a>                        
+                        
+                        <button style="margin-left: 5px !important;" pButton icon="fa fa-trash" pTooltip="Excluir" 
+                            tooltipPosition="top" (click)="confirmarExclusao(estado)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">
+                        Nenhuma estado encontrado
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+    <div class="form-group">
+        <a href="#" class="btn btn-primary" routerLink="/estado">Novo Estado</a>
+    </div>
+
+</div>
